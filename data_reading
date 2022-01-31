@@ -1,0 +1,58 @@
+# DATA READING
+Data reading of CTD files (.cnv) stored in a particular folder.
+
+#30/02/2022 - zpau
+#The following code reads the ctd data from .cnv files stored in a particular folder (path)
+#
+#Imports
+import os
+import pandas as pd
+import ctd
+
+#Important:
+#ctd library has to be in its 1.1.1 version
+#to check its version use the following:
+#ctd.__version__
+#to change its version introduce the following in the conda console:
+#"conda install -c conda-forge ctd=1.1.1"
+
+#Creation of a data files list
+#data_dirs is the path where the files are stored
+data_dirs = ['C:/Users/Pau/Data/TFM/CTD_proc_files_1mbin/']
+filenames = []
+for data_dir in data_dirs:
+    items = os.listdir(data_dir)
+    for names in items:
+        if names.endswith('.cnv'):
+            filenames.append(os.path.join(data_dir, names))
+
+#Create dictionary of dataframes to store downcast by cast number(ncast from now on)
+#data will be the dictionary where the DFs classified by the ncast numbers are stored
+data = {}
+for file in filenames:
+    cast_num = file[-19:-17]
+    down_, up_ = ctd.from_cnv(file).split()
+    data[cast_num] = down_
+
+#Removal of the variables that will not be used
+columnsNOT=['CStarAt0','CStarTr0','nbf','scan','sfdSM','turbWETntu0','nbin','flag']
+for i in data.keys():
+    for column in data[i].columns:
+        #print(column)
+        #print(column in columnsNOT)
+        if column in columnsNOT:
+            del data[i][column]
+
+#Rename the variables to ease the work
+for i in data.keys():  
+    old_names = list(data[i].columns)
+    new_names = ['density','sigma','depth','fluorescence','oxygen','pot_temperature','salinity','temperature','latitude','longitude']
+    name_columns = dict(zip(old_names,new_names))
+    data[i].rename(columns=name_columns, inplace=True)
+    
+#Reading the metadata
+metadata = {}
+for file in filenames:
+    cast_num = file[-19:-17]
+    cast = ctd.from_cnv(file)
+    metadata[cast_num] = cast._metadata
