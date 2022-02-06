@@ -1,3 +1,9 @@
+Folder to store the notebooks of the Layers' section
+
+Read in the next order: 1-Inflexion_Points 2-MaxMin 3-Classification
+
+The notebooks xxxx_plotting are too make a quick simple analysis of the different approaches
+
 # LAYERS
 The objective of this section is to fins a method to classify the vertical profiles according to their number of water bodies layers. Seawater vertical columns are formed by different water bodies that conform different layers. A water body can be distinguished observing its salinity and temperature values. In this section, we will classify vertical profiles according to their number of layers. In our first two approaches, using the salinity vertical profiles, we will determine the number of layers using the inflexion points and the relative maximums and minimums of the profile, respectively. We use the variable of salinity because the value changes through layers are bigger than using the temperature or density variable.
 
