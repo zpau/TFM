@@ -20,3 +20,11 @@ To calculate the moving mean, we used an exponential weight function that “pan
 Once we detected the outliers, we removed them and replaced them for an interpolated value. This part of the code was a bit complicated because we had to differentiate the single outliers from the group of outliers. For the single outliers, we replaced them for an interpolated value from their surrounding points. For the group of outliers, we calculated an interpolated value from the surrounding points of the whole group and assigned this value to the whole group. In case that the outliers were in the first or last positions, the replaced value was the first or last point that was not an outlier.
 
 This was the approach that prevailed. Thus, we created a function of the whole process and applied it to all the stations and variables.
+
+Visual example of this second approach for the detection and replacement of outliers.
+
+![image](https://user-images.githubusercontent.com/97318159/152703093-55b3f541-d50c-41cd-8163-2c35dd091248.png)
+![image](https://user-images.githubusercontent.com/97318159/152703101-600f60d1-3ae4-4ba9-804a-a238f9d5a832.png)
+![image](https://user-images.githubusercontent.com/97318159/152703103-c2de9615-82e3-43ae-b84f-28408edd5cf8.png)
+
+
