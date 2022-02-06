@@ -1,5 +1,7 @@
 Folder to store the notebooks of the Layers' section
+
 Read in the next order: 1-Inflexion_Points 2-MaxMin 3-Classification
+
 The notebooks xxxx_plotting are too make a quick simple analysis of the different approaches
 
 # Layers
