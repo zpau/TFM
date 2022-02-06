@@ -14,6 +14,8 @@ In our first approach, we determine the layers according to the inflexion points
 
 The main problem that we observed using this approach was that it detected too many layers in some profiles and if we tried to make the profiles smoother, the approach did not detect adequately the layers in some profiles. Thus, we tried another approach.
 
+![image](https://user-images.githubusercontent.com/97318159/152703022-48aa4f23-439d-4059-86cf-b4541440191c.png)
+
 ## 2nd approach - Relative maximums and minimums 
 This approach uses the relative maximums and minimums to determine the different layers of the vertical profile. The relative maximums and minimums are located where the first derivative is equal to zero.
 
