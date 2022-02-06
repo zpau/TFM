@@ -1,4 +1,4 @@
-def mapa(data, ncasts, xoffset=2, yoffset=2, s=30, labels=False, lines=False):
+def mapa(data, ncasts, xoffset=2, yoffset=2, s=30, labels=False, lines=False, savefig=False):
     """Plot a map of the stations (ncasts) indicated 
     ncasts = list of the stations ncast"""
     #Imports
@@ -79,13 +79,17 @@ def mapa(data, ncasts, xoffset=2, yoffset=2, s=30, labels=False, lines=False):
                       label = 'Bathymetry (m)')
     plt.title('TRANSMOW 2021')
     m1.gridlines(crs=ccrs.PlateCarree() ,draw_labels=True, color='lightgrey')
+    #To save the plot
+    if savefig == True:
+        plt.savefig('Map_'+ncasts[0]+'to'+ncasts[-1]+'.png')
+    #Show the map
     plt.show()
     
     
 
     
     
-def map_layers(data, layers, extent=False, xoffset=0.5, yoffset=0.5, s=30, colors=['b','g','r','c','m','y','k','w']):
+def map_layers(data, layers, extent=False, xoffset=0.5, yoffset=0.5, s=30, labels=False, colors=['b','g','r','c','m','y','k','w'], savefig=False):
     """ Function that generates a map of the study zone and shows
     the stations classified in base of their number of layers.
     data -> dictionary that store all the DFs of the CTDs stations
@@ -121,9 +125,15 @@ def map_layers(data, layers, extent=False, xoffset=0.5, yoffset=0.5, s=30, color
         bathym = cfeature.NaturalEarthFeature(name='bathymetry_{}_{}'.format(letter, level),
                                      scale='10m', category='physical')
         m1.add_feature(bathym, facecolor=cmap(norm(level)), edgecolor='face', alpha=0.5)  #alpha=transparency
+    #Store the ncasts
+    ncasts = []
+    for i in layers:
+        for ncast in i:
+            ncasts.append(ncast)
+    #Map extent
     longitudes = []
     latitudes = []
-    for ncast in data.keys():     #loop of all the stations
+    for ncast in ncasts:     #loop of all the stations
         longitudes.append(data[ncast]['longitude'].iloc[0])
         latitudes.append(data[ncast]['latitude'].iloc[0])   
     xoffset = xoffset
@@ -131,19 +141,38 @@ def map_layers(data, layers, extent=False, xoffset=0.5, yoffset=0.5, s=30, color
     min_lon = min(longitudes)
     max_lon = max(longitudes)
     min_lat = min(latitudes)
-    max_lat = max(latitudes)    
+    max_lat = max(latitudes)
+    
     #Set extent
     if extent == False:
         m1.set_extent([min_lon-xoffset, max_lon+2*xoffset, min_lat-yoffset, max_lat+yoffset])  #Set the map limits
     if extent != False:
-        m1.set_extent([extent[0]-xoffset, extent[1]+2*xoffset, extent[2]-yoffset, extent[3]+yoffset])    
+        m1.set_extent([extent[0]-xoffset, extent[1]+2*xoffset, extent[2]-yoffset, extent[3]+yoffset])
+            
     #Add the stations coordinates as points
     colors = colors
     n=0
-    for ncasts in layers:
-        for ncast in ncasts:
+    for i in layers:
+        for ncast in i:
             m1.scatter(data[ncast].longitude.iloc[0], data[ncast].latitude.iloc[0],label=str(layers.index[n])+' capas' , color=colors[n],s=s, transform=ccrs.PlateCarree(), edgecolors='black',zorder=10)
-        n+=1    
+        n+=1
+        
+    #Add the labels
+    if labels == True:
+        if extent == False:
+            for ncast in ncasts:
+                m1.text(data[ncast].longitude.iloc[0], data[ncast].latitude.iloc[0], ncast, weight='normal', va='top')
+        if extent != False:
+            ncasts_extent = []
+            for ncast in ncasts:
+                lon = data[ncast]['longitude'].iloc[0]
+                lat = data[ncast]['latitude'].iloc[0]
+                if (extent[0]<lon<extent[1])&(extent[2]<lat<extent[3]):
+                    ncasts_extent.append(ncast)
+            ncasts = ncasts_extent
+            for ncast in ncasts:
+                m1.text(data[ncast].longitude.iloc[0], data[ncast].latitude.iloc[0], ncast, weight='bold', size='x-large', va='bottom', ha='left')
+    
     #Adding of a color bar 
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     cb = plt.colorbar(sm,
@@ -156,4 +185,8 @@ def map_layers(data, layers, extent=False, xoffset=0.5, yoffset=0.5, s=30, color
     #Add title and legend
     plt.title('TRANSMOW 2021')
     legend_without_duplicate_labels(m1,loc='lower right')
+    #To save the plot
+    if savefig == True:
+        plt.savefig('MapLayers_'+ncasts[0]+'to'+ncasts[-1]+'.png')
+    #Show the map
     plt.show()
