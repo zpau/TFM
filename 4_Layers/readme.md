@@ -25,11 +25,21 @@ When we applied this approach to all the profiles, we observed that this approac
 
 We add two functions named "maxmin_2" and "maxmin_2_plot" into the "maxmin.py" file that resumes this 3rd approach without and with plots, respectively. 
 
+Visual example of the second approach.
+![image](https://user-images.githubusercontent.com/97318159/152703142-2cd0eceb-eaf2-4751-a63a-a1b3bd0f830d.png)
+
+Visual example of the difference between the second and the third approach
+![image](https://user-images.githubusercontent.com/97318159/152703156-415a7fee-d1a1-4fc9-8023-537949cf0756.png)
+
 ## Layer classification
 Once we finished our approaches, we classified all our profiles according to their number of layers.
 
 We created 3 tables, one for each approach. It is important to remark that the results vary significantly in function of how much we smooth the profile. We opted for a significant smooth to observe just the big scale features. To choose how much we smoothed the profile, we used the functions that plot the profiles separated by its layers and decided subjectively which one fit better.
 
 The 3 classifications are similar, especially the second and the third that are almost exact. We could expect it, because when work with very smooth profiles ,the second approach does not detect many layers closer than 50m. Most of the profiles are classified between 3 and 4 layers. Profiles in the first approach range from 2 to 7 layers and in the second and third approaches range from 2 to 6 layers.
+
+![image](https://user-images.githubusercontent.com/97318159/152703167-b3fd671c-d439-48b2-abf5-1fb5a4d728e4.png)
+![image](https://user-images.githubusercontent.com/97318159/152703170-03f63688-9537-41d9-85d3-90e3e001528b.png)
+![image](https://user-images.githubusercontent.com/97318159/152703173-25403f04-8898-41f1-b82f-9e428fd4b926.png)
 
 In the next section, we will create some maps to observe better those classifications and see if the layer classifications follow any kind of pattern.
